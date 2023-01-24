@@ -63,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dots[i].setText(Html.fromHtml("&#8226"));
             dots[i].setTextSize(35);
             dots_layout.addView(dots[i]);
-            if (dots.length > 0) {
-                // dots[pos].setTextColor(getResources().getColor(R.color.colorPrimary));
-
+            if (i== pos) {
+                dots[pos].setTextColor(getResources().getColor(R.color.colorPrimary));
             }
         }
     }
