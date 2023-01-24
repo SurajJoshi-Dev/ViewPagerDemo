@@ -6,13 +6,16 @@ android {
     namespace 'com.example.viewpagerdemo'
     compileSdk 33
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.example.viewpagerdemo"
         minSdk 21
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

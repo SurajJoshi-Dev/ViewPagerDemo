@@ -15,54 +15,48 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.viewpagerdemo.Adapter.SliderAdapter;
+import com.example.viewpagerdemo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    ViewPager slideViewPager;
-    LinearLayout dots_layout;
+   
     SliderAdapter sliderAdapter;
     TextView[] dots;
-    TextView nextTxt, skip;
-    ImageButton nxt;
     int mCurrentPage;
-    ProgressBar progressBarOnboarding;
-    Button start_button;
+    ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = activityMainBinding.getRoot();
+        setContentView(view);
+
         initMethod();
     }
 
     private void initMethod() {
-        slideViewPager = findViewById(R.id.slideViewPager);
-        dots_layout = findViewById(R.id.dots_layout);
-        skip = findViewById(R.id.prevBtn);
-        skip.setVisibility(View.GONE);
-        nxt = findViewById(R.id.nextBtn);
+        activityMainBinding.prevBtn.setVisibility(View.GONE);
         sliderAdapter = new SliderAdapter(this);
-        slideViewPager.setAdapter(sliderAdapter);
+        activityMainBinding.slideViewPager.setAdapter(sliderAdapter);
         addDotsIndicator(0);
-        slideViewPager.addOnPageChangeListener(viewListner);
-        nextTxt = findViewById(R.id.next_text);
-        progressBarOnboarding = findViewById(R.id.progressBarOnboarding);
-        progressBarOnboarding.setVisibility(View.GONE);
-        start_button = findViewById(R.id.start_button);
-        start_button.setVisibility(View.GONE);
-        nxt.setOnClickListener(this);
-        nextTxt.setOnClickListener(this);
-        skip.setOnClickListener(this);
-        start_button.setOnClickListener(this);
+        activityMainBinding.slideViewPager.addOnPageChangeListener(viewListner);
+        activityMainBinding.progressBarOnboarding.setVisibility(View.GONE);
+        activityMainBinding.startButton.setVisibility(View.GONE);
+        activityMainBinding.nextBtn.setOnClickListener(this);
+        activityMainBinding.nextText.setOnClickListener(this);
+        activityMainBinding.prevBtn.setOnClickListener(this);
+        activityMainBinding.startButton.setOnClickListener(this);
     }
 
     private void addDotsIndicator(int pos) {
         dots = new TextView[3];
-        dots_layout.removeAllViews();
+        activityMainBinding.dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226"));
             dots[i].setTextSize(35);
-            dots_layout.addView(dots[i]);
+            activityMainBinding.dotsLayout.addView(dots[i]);
             if (i== pos) {
                 dots[pos].setTextColor(getResources().getColor(R.color.colorPrimary));
             }
@@ -80,23 +74,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             addDotsIndicator(position);
             mCurrentPage = position;
             if (position == 0) {
-                nxt.setVisibility(View.VISIBLE);
-                nextTxt.setVisibility(View.VISIBLE);
-                skip.setVisibility(View.GONE);
+                activityMainBinding.nextBtn.setVisibility(View.VISIBLE);
+                activityMainBinding.nextText.setVisibility(View.VISIBLE);
+                activityMainBinding.prevBtn.setVisibility(View.GONE);
             } else if (position == dots.length - 1) {
-                skip.setVisibility(View.VISIBLE);
-                nextTxt.setText("Done");
-                start_button.setVisibility(View.VISIBLE);
-                nextTxt.setVisibility(View.GONE);
-                nxt.setVisibility(View.GONE);
+                activityMainBinding.prevBtn.setVisibility(View.VISIBLE);
+                activityMainBinding.nextText.setText("Done");
+                 activityMainBinding.startButton.setVisibility(View.VISIBLE);
+                activityMainBinding.nextText.setVisibility(View.GONE);
+                activityMainBinding.nextBtn.setVisibility(View.GONE);
             } else {
-//                nxt.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.mutton_icon));
-                nxt.setVisibility(View.VISIBLE);
-                nextTxt.setText("Next");
-                start_button.setVisibility(View.GONE);
-                nextTxt.setVisibility(View.VISIBLE);
-                nextTxt.setVisibility(View.VISIBLE);
-                skip.setVisibility(View.VISIBLE);
+                activityMainBinding.nextBtn.setVisibility(View.VISIBLE);
+                activityMainBinding.nextText.setText("Next");
+                 activityMainBinding.startButton.setVisibility(View.GONE);
+                activityMainBinding.nextText.setVisibility(View.VISIBLE);
+                activityMainBinding.nextText.setVisibility(View.VISIBLE);
+                activityMainBinding.prevBtn.setVisibility(View.VISIBLE);
             }
         }
 
@@ -111,22 +104,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.nextBtn:
                 if (mCurrentPage == 2) {
-                    nxt.setEnabled(false);
-                    skip.setEnabled(false);
+                    activityMainBinding.nextBtn.setEnabled(false);
+                    activityMainBinding.prevBtn.setEnabled(false);
                 }
-                slideViewPager.setCurrentItem(mCurrentPage + 1);
+                activityMainBinding.slideViewPager.setCurrentItem(mCurrentPage + 1);
                 break;
 
             case R.id.next_text:
                 if (mCurrentPage == 2) {
-                    nxt.setEnabled(false);
-                    skip.setEnabled(false);
+                    activityMainBinding.nextBtn.setEnabled(false);
+                    activityMainBinding.prevBtn.setEnabled(false);
                 }
-                slideViewPager.setCurrentItem(mCurrentPage + 1);
+                activityMainBinding.slideViewPager.setCurrentItem(mCurrentPage + 1);
                 break;
             case R.id.prevBtn:
                 Intent i = new Intent(MainActivity.this, MainActivity.class);
-                Toast.makeText(this, "Skip Button Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "activityMainBinding.prevBtn Button Clicked", Toast.LENGTH_SHORT).show();
                 startActivity(i);
                 finish();
                 break;
